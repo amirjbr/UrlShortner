@@ -1,17 +1,33 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"UrlShortner/config"
+	"flag"
+	"fmt"
+	"os"
+)
+
+var configPath = flag.String("config", "config.json", "service configuration file")
 
 func main() {
+	flag.Parse()
+	if v := os.Getenv("CONFIG_PATH"); len(v) > 0 {
+		*configPath = v
+	}
+	c := config.MustReadConfig(*configPath)
+	fmt.Println(c)
+	// db := storage.NewDbInstanse(c)
 
-	s := gin.Default()
+	// setup Database and send config to it
 
-	s.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	// s := gin.Default()
 
-	s.Run()
+	// s.GET("/ping", func(c *gin.Context) {
+	// 	c.JSON(200, gin.H{
+	// 		"message": "pong",
+	// 	})
+	// })
+
+	// s.Run()
 
 }
